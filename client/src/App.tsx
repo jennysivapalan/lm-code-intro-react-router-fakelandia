@@ -1,10 +1,13 @@
-import justiceLogo from "./assets/justice.svg";
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./router/router";
 
 function App() {
   return (
     <>
-      <h1>Justice for Fakelandia ⚖️</h1>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </>
   );
 }
