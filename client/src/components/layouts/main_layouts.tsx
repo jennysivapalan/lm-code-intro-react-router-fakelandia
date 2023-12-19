@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Header from "../header/header";
 
 function MainLayout() {
   return (
     <>
       <main>
-        <h1>Justice for Fakelandia ⚖️</h1>
-
+        <Header />
         <Outlet />
       </main>
     </>
