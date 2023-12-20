@@ -8,6 +8,7 @@ const Misdemeanours: React.FC = () => {
   const [misdemeanours, setMisdemeanours] = useState<Misdemeanour[]>([]);
   const [filteredMisdemeanours, setFilteredMisdemeanours] =
     useState<Misdemeanour[]>(misdemeanours);
+  const [selectedOption, setSeletedOption] = useState<string>("all");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +34,7 @@ const Misdemeanours: React.FC = () => {
       );
       setFilteredMisdemeanours(filteredList);
     }
+    setSeletedOption(selectedMisdemeanour);
   }
 
   return (
@@ -45,6 +47,7 @@ const Misdemeanours: React.FC = () => {
           onChange={(e) => {
             updateFilteredMisdemeanour(e.target.value);
           }}
+          value={selectedOption}
         >
           <option value="all">all</option>
           {MISDEMEANOURS.map((m) => (
