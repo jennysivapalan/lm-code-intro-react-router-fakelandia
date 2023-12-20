@@ -1,15 +1,21 @@
-import { useContext } from "react";
-import { MisdemeanoursContext } from "./misdemeanours";
 import Item from "./item";
+import { Misdemeanour } from "../../types/misdemeanours.types";
 
-const MisdemeanoursList: React.FC = () => {
-  const misdemeanours = useContext(MisdemeanoursContext);
+interface MisdemeanourListProps {
+  misdemeanours: Misdemeanour[];
+}
+
+const MisdemeanoursList: React.FC<MisdemeanourListProps> = ({
+  misdemeanours,
+}) => {
   return (
-    <ul>
-      {misdemeanours.map((m) => (
-        <Item misdemeanour={m} />
-      ))}
-    </ul>
+    <>
+      <ul>
+        {misdemeanours.map((m) => (
+          <Item misdemeanour={m} />
+        ))}
+      </ul>
+    </>
   );
 };
 
