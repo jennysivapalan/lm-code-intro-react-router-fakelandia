@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Misdemeanour, MISDEMEANOURS } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
+import { v4 as uuid } from "uuid";
 
 const Misdemeanours: React.FC = () => {
   const endpoint = "http://localhost:8080/api/misdemeanours/10";
@@ -47,7 +48,9 @@ const Misdemeanours: React.FC = () => {
         >
           <option value="all">all</option>
           {MISDEMEANOURS.map((m) => (
-            <option value={m}>{m}</option>
+            <option key={uuid()} value={m}>
+              {m}
+            </option>
           ))}
         </select>
       </div>
