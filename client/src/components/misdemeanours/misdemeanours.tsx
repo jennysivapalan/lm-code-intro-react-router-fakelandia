@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Misdemeanour, MISDEMEANOURS } from "../../types/misdemeanours.types";
+import { Misdemeanour } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
-import { v4 as uuid } from "uuid";
+import MisdemeanoursSelect from "./select";
 
 const Misdemeanours: React.FC = () => {
   const endpoint = "http://localhost:8080/api/misdemeanours/10";
@@ -39,24 +39,10 @@ const Misdemeanours: React.FC = () => {
 
   return (
     <>
-      <div>
-        <label htmlFor="misdemeanours-list">Filter by Misdemeanor </label>
-        <select
-          name="misdemeanours-list"
-          id="misdemeanours-list"
-          onChange={(e) => {
-            updateFilteredMisdemeanour(e.target.value);
-          }}
-          value={selectedOption}
-        >
-          <option value="all">all</option>
-          {MISDEMEANOURS.map((m) => (
-            <option key={uuid()} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
-      </div>
+      <MisdemeanoursSelect
+        selectedValue={selectedOption}
+        onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
+      />
       <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
     </>
   );
