@@ -5,7 +5,7 @@ interface MisdemeanourProps {
 }
 const Item: React.FC<MisdemeanourProps> = ({ misdemeanour }) => {
   return (
-    <div>
+    <div className="misdeameanour-item">
       {misdemeanour.citizenId}, {misdemeanour.date}, {misdemeanour.misdemeanour}
     </div>
   );

@@ -11,7 +11,7 @@ const MisdemeanoursList: React.FC<MisdemeanourListProps> = ({
 }) => {
   return (
     <>
-      <ul>
+      <ul className="misdeameanours-list">
         {misdemeanours.map((m) => (
           <Item misdemeanour={m} key={uuid()} />
         ))}
