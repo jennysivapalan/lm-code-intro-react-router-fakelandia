@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "./header";
 test("renders header text", () => {
   render(<Header />, { wrapper: BrowserRouter });
-  const someHeaderText = screen.getByText("Justice for Fakelandia ⚖️");
-  expect(someHeaderText).toBeInTheDocument();
+  expect(screen.getByText("FAKELANDIA")).toBeInTheDocument();
+  expect(screen.getByText("JUSTICE")).toBeInTheDocument();
+  expect(screen.getByText("DEPARTMENT")).toBeInTheDocument();
 });

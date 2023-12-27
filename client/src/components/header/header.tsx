@@ -1,7 +1,11 @@
 import Nav from "./nav";
 const Header: React.FC = () => (
-  <header>
-    <h1>Justice for Fakelandia ⚖️</h1>
+  <header className="header">
+    <h1>
+      <div>FAKELANDIA</div>
+      <div> JUSTICE </div>
+      <div>DEPARTMENT</div>
+    </h1>
     <Nav />
   </header>
 );

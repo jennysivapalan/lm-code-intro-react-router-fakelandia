@@ -1,18 +1,9 @@
 #root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-a {
-  font-weight: 500;
-  color: #83144a;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #f50505;
 }
 
 body {
@@ -23,7 +14,45 @@ body {
   min-height: 100vh;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  font-size: 1rem;
+  padding: 10px;
+  margin: 10px;
+  border: solid black 1px;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.nav {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.navLink {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 2rem;
+  padding: 10px;
+  margin: 10px;
+}
+
+a {
+  font-weight: 500;
+  color: #1c2833;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #a569bd;
+}
+
+a:active {
+  color: #a569bd;
 }
