@@ -19,7 +19,6 @@ body {
   flex-direction: row;
   font-size: 1rem;
   padding: 10px;
-  margin: 10px;
   border: solid black 1px;
 }
 
@@ -55,4 +54,44 @@ a:hover {
 
 a:active {
   color: #a569bd;
+}
+
+.table-container {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 10px auto;
+}
+
+.table-select {
+  margin: 10px;
+  padding-left: 25%;
+}
+.table-row {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+
+.heading {
+  font-weight: bold;
+}
+
+.row-item {
+  display: flex;
+  flex: 1;
+  font-size: 14px;
+  padding: 8px 0;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.15s ease-in-out;
+  border-left: 1px solid #1c2833;
+}
+
+.row-item__first {
+  border-left: transparent;
+}
+
+.row-item:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
 }

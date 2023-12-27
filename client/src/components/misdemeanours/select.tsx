@@ -11,8 +11,8 @@ const MisdemeanoursSelect: React.FC<SelectProps> = ({
   onChangeSelectedValue,
 }) => {
   return (
-    <div>
-      <label htmlFor="misdemeanours-select">Filter by Misdemeanor </label>
+    <div className="table-select">
+      <label htmlFor="misdemeanours-select"> </label>
       <select
         name="misdemeanours-select"
         id="misdemeanours-select"
@@ -21,6 +21,7 @@ const MisdemeanoursSelect: React.FC<SelectProps> = ({
         }}
         value={selectedValue}
       >
+        <option value="all">Filter</option>
         <option value="all">all</option>
         {MISDEMEANOURS.map((m) => (
           <option key={uuid()} value={m}>

@@ -42,9 +42,7 @@ describe("Misdemeanours", () => {
     const { container } = await render(<Misdemeanours />, {
       wrapper: BrowserRouter,
     });
-    expect(container.getElementsByClassName("misdeameanours-list").length).toBe(
-      1
-    );
+    expect(container.getElementsByClassName("table-container").length).toBe(1);
 
     expect(container.getElementsByTagName("select").length).toBe(1);
   });
@@ -54,13 +52,13 @@ describe("Misdemeanours", () => {
       wrapper: BrowserRouter,
     });
 
-    const firstItem = await screen.findByText("10192, 22/12/2023, united");
+    const firstItem = await screen.findByText("10192");
     expect(firstItem).toBeInTheDocument();
 
-    const secondItem = await screen.findByText("3961, 20/12/2023, vegetables");
+    const secondItem = await screen.findByText("20/12/2023");
     expect(secondItem).toBeInTheDocument();
 
-    const thirdItem = await screen.findByText("6723, 19/12/2023, lift");
+    const thirdItem = await screen.findByText("6723");
     expect(thirdItem).toBeInTheDocument();
   });
 });

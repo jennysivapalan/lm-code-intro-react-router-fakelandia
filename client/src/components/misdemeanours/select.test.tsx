@@ -10,9 +10,8 @@ test("renders select list component and display all in the options", () => {
       onChangeSelectedValue={mockOnChange}
     />
   );
-  const labelText = screen.getByLabelText("Filter by Misdemeanor");
-  expect(labelText).toBeInTheDocument();
-  const inputText = screen.getByDisplayValue("all");
+
+  const inputText = screen.getByDisplayValue("Filter");
   expect(inputText).toBeInTheDocument();
 });
 
@@ -27,7 +26,7 @@ describe("onChange functionality", () => {
       />
     );
 
-    const input = screen.getByLabelText("Filter by Misdemeanor");
+    const input = screen.getByDisplayValue("Filter");
     fireEvent.change(input, { target: { value: "united" } });
     expect(mockOnChange).toHaveBeenCalledWith("united");
   });
@@ -40,7 +39,7 @@ describe("onChange functionality", () => {
         onChangeSelectedValue={mockOnChange}
       />
     );
-    const input = screen.getByLabelText("Filter by Misdemeanor");
+    const input = screen.getByDisplayValue("Filter");
     fireEvent.change(input, { target: { value: "loving-life" } });
     expect(mockOnChange).toHaveBeenCalledWith("");
   });

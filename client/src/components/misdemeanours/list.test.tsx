@@ -20,8 +20,6 @@ test("renders misdeameanours list component", () => {
   const { container } = render(
     <MisdemeanoursList misdemeanours={dummyMisdemeanours} />
   );
-  expect(container.getElementsByClassName("misdeameanours-list").length).toBe(
-    1
-  );
-  expect(container.getElementsByClassName("misdeameanour-item").length).toBe(2);
+  expect(container.getElementsByClassName("table-row heading").length).toBe(1);
+  expect(container.getElementsByClassName("table-row").length).toBe(3);
 });

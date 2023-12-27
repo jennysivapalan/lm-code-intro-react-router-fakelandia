@@ -39,11 +39,13 @@ const Misdemeanours: React.FC = () => {
 
   return (
     <>
-      <MisdemeanoursSelect
-        selectedValue={selectedOption}
-        onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
-      />
-      <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
+      <div className="table-container">
+        <MisdemeanoursSelect
+          selectedValue={selectedOption}
+          onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
+        />
+        <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
+      </div>
     </>
   );
 };

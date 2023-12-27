@@ -29,11 +29,16 @@ const MisdemeanoursList: React.FC<MisdemeanourListProps> = ({
   }, []);
   return (
     <>
-      <ul className="misdeameanours-list">
-        {misdemeanours.map((m, i) => (
-          <Item misdemeanour={m} key={uuid()} imageId={imageIds[i]} />
-        ))}
-      </ul>
+      <div className="table-row heading">
+        <div className="row-item row-item__first">Citizen ID</div>
+        <div className="row-item">Date</div>
+        <div className="row-item">Misdemeanour</div>
+        <div className="row-item">Punishment Idea</div>
+      </div>
+
+      {misdemeanours.map((m, i) => (
+        <Item misdemeanour={m} key={uuid()} imageId={imageIds[i]} />
+      ))}
     </>
   );
 };
