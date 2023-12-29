@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MISDEMEANOURS } from "../../types/misdemeanours.types";
 import {
+  validateDetails,
   validateReason,
   validateSubject,
 } from "../../validate/confession/validate-form";
@@ -41,10 +42,18 @@ const Form: React.FC = () => {
           </select>
           <ErrorMessages messages={validateReason(reason)} />
         </div>
+
         <div>
           <label htmlFor="details"></label>
-          <textarea name="details" id="details" value={details} />
+          <textarea
+            name="details"
+            id="details"
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+          />
         </div>
+        <ErrorMessages messages={validateDetails(details)} />
+
         <button type="button">Confess</button>
       </section>
     </>
