@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { MISDEMEANOURS } from "../../types/misdemeanours.types";
-import { validateSubject } from "../../validate/confession/validate-form";
+import {
+  validateReason,
+  validateSubject,
+} from "../../validate/confession/validate-form";
 import ErrorMessages from "./error_messages";
 
 const Form: React.FC = () => {
@@ -24,13 +27,19 @@ const Form: React.FC = () => {
         </div>
         <div>
           <label htmlFor="reason">Reason for contact:</label>
-          <select name="reason" id="reason" value={reason}>
+          <select
+            name="reason"
+            id="reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          >
             <option value="">Select</option>
             {MISDEMEANOURS.map((m) => (
-              <option value="m">{m}</option>
+              <option value={m}>{m}</option>
             ))}
             <option value="just-talk">I just want to talk</option>
           </select>
+          <ErrorMessages messages={validateReason(reason)} />
         </div>
         <div>
           <label htmlFor="details"></label>
