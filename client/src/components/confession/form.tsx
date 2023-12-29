@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { MISDEMEANOURS } from "../../types/misdemeanours.types";
+import { validateSubject } from "../../validate/confession/validate-form";
+import ErrorMessages from "./error_messages";
 
 const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
@@ -11,7 +13,14 @@ const Form: React.FC = () => {
       <section className="confession-form">
         <div>
           <label htmlFor="subject">Subject</label>
-          <input type="text" name="subject" id="subject" value={subject} />
+          <input
+            type="text"
+            name="subject"
+            id="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+          />
+          <ErrorMessages messages={validateSubject(subject)} />
         </div>
         <div>
           <label htmlFor="reason">Reason for contact:</label>

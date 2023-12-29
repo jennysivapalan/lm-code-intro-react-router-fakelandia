@@ -95,3 +95,7 @@ a:active {
   cursor: pointer;
   background-color: #f0f0f0;
 }
+
+.errorMsg {
+  color: red;
+}
