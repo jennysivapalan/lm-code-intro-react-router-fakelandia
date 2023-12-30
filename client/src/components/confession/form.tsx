@@ -29,6 +29,7 @@ const Form: React.FC = () => {
             type="text"
             name="subject"
             id="subject"
+            data-testid="subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
           />
@@ -39,6 +40,7 @@ const Form: React.FC = () => {
           <select
             name="reason"
             id="reason"
+            data-testid="reason"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           >
@@ -52,11 +54,12 @@ const Form: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="details"></label>
+          <label htmlFor="details">Details</label>
           <textarea
             name="details"
             id="details"
             value={details}
+            data-testid="details"
             onChange={(e) => setDetails(e.target.value)}
           />
         </div>
