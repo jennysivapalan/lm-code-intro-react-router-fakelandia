@@ -99,3 +99,42 @@ a:active {
 .errorMsg {
   color: red;
 }
+
+.intro {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  line-height: 4rem;
+  font-size: large;
+}
+
+.confession-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 300px;
+  gap: 10px;
+}
+
+label {
+  margin: 10px;
+}
+
+input,
+select {
+  width: 300px;
+  height: 30px;
+}
+
+textarea {
+  height: 150px;
+  width: 460px;
+  margin-bottom: 10px;
+}
+
+button {
+  align-self: center;
+  margin-left: 200px;
+  padding: 10px;
+  width: 100px;
+}

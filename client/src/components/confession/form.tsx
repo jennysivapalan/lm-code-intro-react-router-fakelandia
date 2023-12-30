@@ -23,8 +23,12 @@ const Form: React.FC = () => {
   return (
     <>
       <section className="confession-form">
+        <ErrorMessages messages={validateSubject(subject)} />
+        <ErrorMessages messages={validateReason(reason)} />
+        <ErrorMessages messages={validateDetails(details)} />
+
         <div>
-          <label htmlFor="subject">Subject</label>
+          <label htmlFor="subject">Subject: </label>
           <input
             type="text"
             name="subject"
@@ -33,10 +37,9 @@ const Form: React.FC = () => {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
           />
-          <ErrorMessages messages={validateSubject(subject)} />
         </div>
         <div>
-          <label htmlFor="reason">Reason for contact:</label>
+          <label htmlFor="reason">Reason for contact: </label>
           <select
             name="reason"
             id="reason"
@@ -50,11 +53,10 @@ const Form: React.FC = () => {
             ))}
             <option value="just-talk">I just want to talk</option>
           </select>
-          <ErrorMessages messages={validateReason(reason)} />
         </div>
 
         <div>
-          <label htmlFor="details">Details</label>
+          <label htmlFor="details"></label>
           <textarea
             name="details"
             id="details"
@@ -63,7 +65,6 @@ const Form: React.FC = () => {
             onChange={(e) => setDetails(e.target.value)}
           />
         </div>
-        <ErrorMessages messages={validateDetails(details)} />
         <button type="button" disabled={!isValid}>
           Confess
         </button>
