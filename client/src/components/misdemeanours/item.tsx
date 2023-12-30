@@ -18,7 +18,7 @@ const Item: React.FC<MisdemeanourProps> = ({ misdemeanour, imageId }) => {
           {misdemeanour.misdemeanour} {emoji}
         </div>
         <div className="row-item">
-          <img src={imageUrl} />
+          <img src={imageUrl} data-testid={`mis-image-${imageId}`} />
         </div>
       </div>
     </>

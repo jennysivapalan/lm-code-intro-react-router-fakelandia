@@ -4,7 +4,6 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { test } from "vitest";
 import "@testing-library/jest-dom";
-import { BrowserRouter } from "react-router-dom";
 
 const validMisdeameanourResponse = http.get(
   "http://localhost:8080/api/misdemeanours/10",
@@ -34,6 +33,10 @@ const validImageListReponse = http.get("https://picsum.photos/v2/list", () =>
   HttpResponse.json([{ id: "1" }, { id: "2" }, { id: "3" }])
 );
 
+const mockedImageResponse = http.get("https://picsum.photos/id", () =>
+  HttpResponse.text("an-image")
+);
+
 const server = setupServer();
 
 beforeAll(() => server.listen());
@@ -44,6 +47,7 @@ describe("Misdemeanours", () => {
   test("renders misdemeanours component", async () => {
     server.use(validMisdeameanourResponse);
     server.use(validImageListReponse);
+    server.use(mockedImageResponse);
 
     const { container } = await render(<Misdemeanours />);
 
@@ -54,11 +58,16 @@ describe("Misdemeanours", () => {
   test("renders the misdemeanours from the list", async () => {
     server.use(validMisdeameanourResponse);
     server.use(validImageListReponse);
+    server.use(mockedImageResponse);
 
     await render(<Misdemeanours />);
 
     const firstItem = await screen.findByText("10192");
     expect(firstItem).toBeInTheDocument();
+    const firstItemImage = await screen.findByTestId("mis-image-1");
+    expect(firstItemImage.getAttribute("src")).toBe(
+      "https://picsum.photos/id/1/200/200"
+    );
 
     const secondItem = await screen.findByText("20/12/2023");
     expect(secondItem).toBeInTheDocument();
