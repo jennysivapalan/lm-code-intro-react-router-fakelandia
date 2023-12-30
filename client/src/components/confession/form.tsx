@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { MISDEMEANOURS } from "../../types/misdemeanours.types";
 import {
   validateDetails,
@@ -11,6 +11,14 @@ const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
+
+  const isValid = useMemo(
+    () =>
+      validateSubject(subject).length === 0 &&
+      validateReason(reason).length === 0 &&
+      validateDetails(details).length === 0,
+    [subject, reason, details]
+  );
 
   return (
     <>
@@ -53,8 +61,9 @@ const Form: React.FC = () => {
           />
         </div>
         <ErrorMessages messages={validateDetails(details)} />
-
-        <button type="button">Confess</button>
+        <button type="button" disabled={!isValid}>
+          Confess
+        </button>
       </section>
     </>
   );
