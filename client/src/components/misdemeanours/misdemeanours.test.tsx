@@ -6,7 +6,7 @@ import { test } from "vitest";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 
-const validResponse = http.get(
+const validMisdeameanourResponse = http.get(
   "http://localhost:8080/api/misdemeanours/10",
   () =>
     HttpResponse.json({
@@ -30,6 +30,10 @@ const validResponse = http.get(
     })
 );
 
+const validImageListReponse = http.get("https://picsum.photos/v2/list", () =>
+  HttpResponse.json([{ id: "1" }, { id: "2" }, { id: "3" }])
+);
+
 const server = setupServer();
 
 beforeAll(() => server.listen());
@@ -38,19 +42,20 @@ afterAll(() => server.close());
 
 describe("Misdemeanours", () => {
   test("renders misdemeanours component", async () => {
-    server.use(validResponse);
-    const { container } = await render(<Misdemeanours />, {
-      wrapper: BrowserRouter,
-    });
+    server.use(validMisdeameanourResponse);
+    server.use(validImageListReponse);
+
+    const { container } = await render(<Misdemeanours />);
+
     expect(container.getElementsByClassName("table-container").length).toBe(1);
 
     expect(container.getElementsByTagName("select").length).toBe(1);
   });
   test("renders the misdemeanours from the list", async () => {
-    server.use(validResponse);
-    await render(<Misdemeanours />, {
-      wrapper: BrowserRouter,
-    });
+    server.use(validMisdeameanourResponse);
+    server.use(validImageListReponse);
+
+    await render(<Misdemeanours />);
 
     const firstItem = await screen.findByText("10192");
     expect(firstItem).toBeInTheDocument();
@@ -58,7 +63,7 @@ describe("Misdemeanours", () => {
     const secondItem = await screen.findByText("20/12/2023");
     expect(secondItem).toBeInTheDocument();
 
-    const thirdItem = await screen.findByText("6723");
+    const thirdItem = await screen.findByText("lift 🗣");
     expect(thirdItem).toBeInTheDocument();
   });
 });
