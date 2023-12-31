@@ -6,11 +6,13 @@ import {
   validateSubject,
 } from "../../validate/confession/validate-form";
 import ErrorMessages from "./error_messages";
+import { json } from "stream/consumers";
 
 const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
 
   const isValid = useMemo(
     () =>
@@ -19,6 +21,24 @@ const Form: React.FC = () => {
       validateDetails(details).length === 0,
     [subject, reason, details]
   );
+
+  async function submitConfession() {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        subject: subject,
+        reason: reason,
+        details: details,
+      }),
+    };
+    const response = await fetch(
+      "http://localhost:8080/api/confess",
+      requestOptions
+    );
+    const data = await response.json();
+    setResponseMessage(data.message);
+  }
 
   return (
     <>
@@ -65,9 +85,14 @@ const Form: React.FC = () => {
             onChange={(e) => setDetails(e.target.value)}
           />
         </div>
-        <button type="button" disabled={!isValid}>
+        <button
+          type="button"
+          disabled={!isValid}
+          onClick={() => submitConfession()}
+        >
           Confess
         </button>
+        <div>{responseMessage}</div>
       </section>
     </>
   );
