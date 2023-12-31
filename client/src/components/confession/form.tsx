@@ -12,7 +12,7 @@ const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
-  const [responseMessage, setResponseMessage] = useState("");
+  const [data, setData] = useState({ success: null, message: "" });
 
   const isValid = useMemo(
     () =>
@@ -37,7 +37,7 @@ const Form: React.FC = () => {
       requestOptions
     );
     const data = await response.json();
-    setResponseMessage(data.message);
+    setData(data);
   }
 
   return (
@@ -46,7 +46,6 @@ const Form: React.FC = () => {
         <ErrorMessages messages={validateSubject(subject)} />
         <ErrorMessages messages={validateReason(reason)} />
         <ErrorMessages messages={validateDetails(details)} />
-
         <div>
           <label htmlFor="subject">Subject: </label>
           <input
@@ -74,7 +73,6 @@ const Form: React.FC = () => {
             <option value="just-talk">I just want to talk</option>
           </select>
         </div>
-
         <div>
           <label htmlFor="details"></label>
           <textarea
@@ -92,7 +90,10 @@ const Form: React.FC = () => {
         >
           Confess
         </button>
-        <div>{responseMessage}</div>
+        <div>{data.message}</div>
+        {data.success === false && (
+          <div>An error occured when confessing, please try again.</div>
+        )}
       </section>
     </>
   );
