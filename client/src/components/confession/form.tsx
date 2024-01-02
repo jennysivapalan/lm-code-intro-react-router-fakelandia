@@ -1,12 +1,15 @@
 import { useState, useMemo } from "react";
-import { MISDEMEANOURS } from "../../types/misdemeanours.types";
+import {
+  MISDEMEANOURS,
+  MisdemeanourKind,
+} from "../../types/misdemeanours.types";
+import { addMisdemeanour } from "../../service/new-confessions";
 import {
   validateDetails,
   validateReason,
   validateSubject,
 } from "../../validate/confession/validate-form";
 import ErrorMessages from "./error_messages";
-import { json } from "stream/consumers";
 
 const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
@@ -38,6 +41,15 @@ const Form: React.FC = () => {
     );
     const data = await response.json();
     setData(data);
+    if (checkIsMisdemeanour(reason))
+      addMisdemeanour(reason as MisdemeanourKind);
+  }
+
+  function checkIsMisdemeanour(value: unknown) {
+    return (
+      typeof value === "string" &&
+      MISDEMEANOURS.some((misdemeanour) => value === misdemeanour)
+    );
   }
 
   return (

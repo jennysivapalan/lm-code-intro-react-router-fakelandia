@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Misdemeanour } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
 import MisdemeanoursSelect from "./select";
+import { newMisdemeanours } from "../../service/new-confessions";
 
 const Misdemeanours: React.FC = () => {
   const endpoint = "http://localhost:8080/api/misdemeanours/10";
@@ -16,8 +17,10 @@ const Misdemeanours: React.FC = () => {
         const response = await fetch(endpoint);
         const json = await response.json();
 
-        setMisdemeanours(json.misdemeanours);
-        setFilteredMisdemeanours(json.misdemeanours);
+        const allMisdemeanours = json.misdemeanours.concat(newMisdemeanours);
+
+        setMisdemeanours(allMisdemeanours);
+        setFilteredMisdemeanours(allMisdemeanours);
       } catch (error) {
         console.error("Error", error);
       }
