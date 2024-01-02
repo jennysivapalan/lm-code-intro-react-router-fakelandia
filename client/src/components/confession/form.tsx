@@ -55,9 +55,15 @@ const Form: React.FC = () => {
   return (
     <>
       <section className="confession-form">
-        <ErrorMessages messages={validateSubject(subject)} />
-        <ErrorMessages messages={validateReason(reason)} />
-        <ErrorMessages messages={validateDetails(details)} />
+        <ErrorMessages
+          messages={validateSubject(subject)}
+          key="subject-error"
+        />
+        <ErrorMessages messages={validateReason(reason)} key="reason-error" />
+        <ErrorMessages
+          messages={validateDetails(details)}
+          key="details-error"
+        />
         <div>
           <label htmlFor="subject">Subject: </label>
           <input
@@ -80,7 +86,9 @@ const Form: React.FC = () => {
           >
             <option value="">Select</option>
             {MISDEMEANOURS.map((m) => (
-              <option value={m}>{m}</option>
+              <option value={m} key={m}>
+                {m}
+              </option>
             ))}
             <option value="just-talk">I just want to talk</option>
           </select>
