@@ -12,10 +12,11 @@ const MisdemeanoursSelect: React.FC<SelectProps> = ({
 }) => {
   return (
     <div className="table-select">
-      <label htmlFor="misdemeanours-select"> </label>
+      <label htmlFor="misdemeanours-select"></label>
       <select
         name="misdemeanours-select"
         id="misdemeanours-select"
+        className="misdemeanours-select"
         onChange={(e) => {
           onChangeSelectedValue(e.target.value);
         }}

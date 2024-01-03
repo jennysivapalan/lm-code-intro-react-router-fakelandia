@@ -59,14 +59,17 @@ a {
   margin: 10px auto;
 }
 
-.table-select {
-  margin: 10px;
-  padding-left: 25%;
-}
 .table-row {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
+}
+
+.misdemeanours-select {
+  width: 243px;
+  height: 30px;
+  margin-left: 255px;
+  margin-bottom: 10px;
 }
 
 .heading {
@@ -113,12 +116,12 @@ a {
   gap: 10px;
 }
 
-label {
-  margin: 10px;
+.reason-select {
+  width: 227px;
+  height: 30px;
 }
 
-input,
-select {
+input {
   width: 300px;
   height: 30px;
 }

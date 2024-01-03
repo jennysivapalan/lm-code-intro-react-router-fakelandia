@@ -81,6 +81,7 @@ const Form: React.FC = () => {
             name="reason"
             id="reason"
             data-testid="reason"
+            className="reason-select"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           >
