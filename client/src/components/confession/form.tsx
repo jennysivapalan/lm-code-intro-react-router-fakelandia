@@ -47,19 +47,27 @@ const Form: React.FC = () => {
     );
   }
 
-  function toggleValidateAndChangeSubject(value: string) {
-    setShowSubjectErrorComponent(true);
-    setSubject(value);
-  }
-
-  function toggleValidateAndChangeReason(value: string) {
-    setShowReasonErrorComponent(true);
-    setReason(value);
-  }
-
-  function toggleValidateAndChangeDetails(value: string) {
-    setShowDetailsErrorComponent(true);
-    setDetails(value);
+  function toggleValidateAndSetInput(name: string, value: string) {
+    switch (name) {
+      case "subject": {
+        setShowSubjectErrorComponent(true);
+        setSubject(value);
+        break;
+      }
+      case "reason": {
+        setShowReasonErrorComponent(true);
+        setReason(value);
+        break;
+      }
+      case "details": {
+        setShowDetailsErrorComponent(true);
+        setDetails(value);
+        break;
+      }
+      default:
+        console.log("No such field exists");
+        break;
+    }
   }
 
   return (
@@ -88,7 +96,9 @@ const Form: React.FC = () => {
             id="subject"
             data-testid="subject"
             value={subject}
-            onChange={(e) => toggleValidateAndChangeSubject(e.target.value)}
+            onChange={(e) =>
+              toggleValidateAndSetInput("subject", e.target.value)
+            }
           />
         </div>
         <div>
@@ -99,7 +109,9 @@ const Form: React.FC = () => {
             data-testid="reason"
             className="reason-select"
             value={reason}
-            onChange={(e) => toggleValidateAndChangeReason(e.target.value)}
+            onChange={(e) =>
+              toggleValidateAndSetInput("reason", e.target.value)
+            }
           >
             <option value="">Select</option>
             {MISDEMEANOURS.map((m) => (
@@ -117,7 +129,9 @@ const Form: React.FC = () => {
             id="details"
             value={details}
             data-testid="details"
-            onChange={(e) => toggleValidateAndChangeDetails(e.target.value)}
+            onChange={(e) =>
+              toggleValidateAndSetInput("details", e.target.value)
+            }
           />
         </div>
         <button
