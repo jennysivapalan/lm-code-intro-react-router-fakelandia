@@ -3,26 +3,28 @@ import { Misdemeanour } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
 import MisdemeanoursSelect from "./select";
 import { newMisdemeanours } from "../../service/new-confessions";
+import { fetchMisdemeanours } from "../../service/fetch-misdemeanours";
 
 const Misdemeanours: React.FC = () => {
-  const endpoint = "http://localhost:8080/api/misdemeanours/10";
   const [misdemeanours, setMisdemeanours] = useState<Misdemeanour[]>([]);
   const [filteredMisdemeanours, setFilteredMisdemeanours] =
     useState<Misdemeanour[]>(misdemeanours);
   const [selectedOption, setSeletedOption] = useState<string>("all");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(endpoint);
-        const json = await response.json();
-
-        const allMisdemeanours = json.misdemeanours.concat(newMisdemeanours);
+        const json = await fetchMisdemeanours();
+        const allMisdemeanours = json.concat(newMisdemeanours);
 
         setMisdemeanours(allMisdemeanours);
         setFilteredMisdemeanours(allMisdemeanours);
       } catch (error) {
         console.error("Error", error);
+        setErrorMsg(
+          "Sorry an error occurred fetching misdemeanours. Try again later."
+        );
       }
     };
 
@@ -42,6 +44,7 @@ const Misdemeanours: React.FC = () => {
 
   return (
     <>
+      <div className="errorMsg">{errorMsg}</div>
       <div className="table-container">
         <MisdemeanoursSelect
           selectedValue={selectedOption}
