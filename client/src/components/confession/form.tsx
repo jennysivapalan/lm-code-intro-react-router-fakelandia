@@ -10,7 +10,8 @@ import {
   validateSubject,
 } from "../../validate/confession/validate-form";
 import ErrorMessages from "./error_messages";
-
+import { postConfession } from "../../service/new-confessions";
+import { ConfessionPostResponse } from "../../types/confessions.types";
 const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [showSubjectError, setShowSubjectErrorComponent] = useState(false);
@@ -19,7 +20,10 @@ const Form: React.FC = () => {
   const [details, setDetails] = useState("");
   const [showDetailsError, setShowDetailsErrorComponent] = useState(false);
 
-  const [data, setData] = useState({ success: null, message: "" });
+  const [data, setData] = useState<ConfessionPostResponse>({
+    success: null,
+    message: "",
+  });
 
   const isValid = useMemo(
     () =>
@@ -30,20 +34,7 @@ const Form: React.FC = () => {
   );
 
   async function submitConfession() {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        subject: subject,
-        reason: reason,
-        details: details,
-      }),
-    };
-    const response = await fetch(
-      "http://localhost:8080/api/confess",
-      requestOptions
-    );
-    const data = await response.json();
+    const data = await postConfession(subject, reason, details);
     setData(data);
     if (checkIsMisdemeanour(reason))
       addMisdemeanour(reason as MisdemeanourKind);
