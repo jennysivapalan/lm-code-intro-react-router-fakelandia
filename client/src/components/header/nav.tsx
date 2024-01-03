@@ -6,11 +6,11 @@ const Nav = () => (
       <NavLink to="/" className="navLink">
         Home
       </NavLink>
-      <NavLink to="/confession" className="navLink">
-        Confession
-      </NavLink>
       <NavLink to="/misdemeanours" className="navLink">
         Misdemeanours
+      </NavLink>
+      <NavLink to="/confession" className="navLink">
+        Confess To Us
       </NavLink>
     </nav>
   </>
