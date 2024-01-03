@@ -13,8 +13,12 @@ import ErrorMessages from "./error_messages";
 
 const Form: React.FC = () => {
   const [subject, setSubject] = useState("");
+  const [showSubjectError, setShowSubjectErrorComponent] = useState(false);
   const [reason, setReason] = useState("");
+  const [showReasonError, setShowReasonErrorComponent] = useState(false);
   const [details, setDetails] = useState("");
+  const [showDetailsError, setShowDetailsErrorComponent] = useState(false);
+
   const [data, setData] = useState({ success: null, message: "" });
 
   const isValid = useMemo(
@@ -52,18 +56,39 @@ const Form: React.FC = () => {
     );
   }
 
+  function toggleValidateAndChangeSubject(value: string) {
+    setShowSubjectErrorComponent(true);
+    setSubject(value);
+  }
+
+  function toggleValidateAndChangeReason(value: string) {
+    setShowReasonErrorComponent(true);
+    setReason(value);
+  }
+
+  function toggleValidateAndChangeDetails(value: string) {
+    setShowDetailsErrorComponent(true);
+    setDetails(value);
+  }
+
   return (
     <>
       <section className="confession-form">
-        <ErrorMessages
-          messages={validateSubject(subject)}
-          key="subject-error"
-        />
-        <ErrorMessages messages={validateReason(reason)} key="reason-error" />
-        <ErrorMessages
-          messages={validateDetails(details)}
-          key="details-error"
-        />
+        {showSubjectError && (
+          <ErrorMessages
+            messages={validateSubject(subject)}
+            key="subject-error"
+          />
+        )}
+        {showReasonError && (
+          <ErrorMessages messages={validateReason(reason)} key="reason-error" />
+        )}
+        {showDetailsError && (
+          <ErrorMessages
+            messages={validateDetails(details)}
+            key="details-error"
+          />
+        )}
         <div>
           <label htmlFor="subject">Subject: </label>
           <input
@@ -72,7 +97,7 @@ const Form: React.FC = () => {
             id="subject"
             data-testid="subject"
             value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            onChange={(e) => toggleValidateAndChangeSubject(e.target.value)}
           />
         </div>
         <div>
@@ -83,7 +108,7 @@ const Form: React.FC = () => {
             data-testid="reason"
             className="reason-select"
             value={reason}
-            onChange={(e) => setReason(e.target.value)}
+            onChange={(e) => toggleValidateAndChangeReason(e.target.value)}
           >
             <option value="">Select</option>
             {MISDEMEANOURS.map((m) => (
@@ -101,7 +126,7 @@ const Form: React.FC = () => {
             id="details"
             value={details}
             data-testid="details"
-            onChange={(e) => setDetails(e.target.value)}
+            onChange={(e) => toggleValidateAndChangeDetails(e.target.value)}
           />
         </div>
         <button
