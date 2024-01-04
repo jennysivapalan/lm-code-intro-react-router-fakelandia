@@ -34,6 +34,10 @@ describe("form details", () => {
   test("button is disabled when subject is missing", () => {
     render(<Form />);
 
+    const subject = screen.getByTestId("subject");
+    fireEvent.change(subject, { target: { value: "I..." } });
+    fireEvent.change(subject, { target: { value: "" } });
+
     const reason = screen.getByTestId("reason");
     fireEvent.change(reason, { target: { value: "united" } });
 
@@ -61,6 +65,10 @@ describe("form details", () => {
       target: { value: "i have something to report" },
     });
 
+    const reason = screen.getByTestId("reason");
+    fireEvent.change(reason, { target: { value: "united" } });
+    fireEvent.change(reason, { target: { value: "" } });
+
     const details = screen.getByTestId("details");
     fireEvent.change(details, {
       target: { value: "Citizen 452 loves united and I am reporting them" },
@@ -87,6 +95,10 @@ describe("form details", () => {
 
     const reason = screen.getByTestId("reason");
     fireEvent.change(reason, { target: { value: "united" } });
+
+    const details = screen.getByTestId("details");
+    fireEvent.change(details, { target: { value: "some details" } });
+    fireEvent.change(details, { target: { value: "" } });
 
     const button = screen.getByRole("button");
 
