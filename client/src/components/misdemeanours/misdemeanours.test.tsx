@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Misdemeanours from "./misdemeanours";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
@@ -84,6 +84,28 @@ describe("Misdemeanours", () => {
 
     const thirdItem = await screen.findByText("lift 🗣");
     expect(thirdItem).toBeInTheDocument();
+  });
+
+  test("filters the misdemeanours from the list", async () => {
+    server.use(validMisdeameanourResponse);
+    server.use(validImageListReponse);
+    server.use(mockedImageResponse);
+
+    await render(<Misdemeanours />);
+
+    expect(await screen.findByText("10192")).toBeInTheDocument();
+
+    expect(await screen.findByText("3961")).toBeInTheDocument();
+
+    expect(await screen.findByText("6723")).toBeInTheDocument();
+
+    const input = screen.getByDisplayValue("Filter");
+    fireEvent.change(input, { target: { value: "united" } });
+
+    expect(await screen.findByText("10192")).toBeInTheDocument();
+
+    expect(await screen.queryAllByText("3961")).toHaveLength(0);
+    expect(await screen.queryAllByText("6723")).toHaveLength(0);
   });
 
   test("shows the error message when invalid response from misdemeanours", async () => {
