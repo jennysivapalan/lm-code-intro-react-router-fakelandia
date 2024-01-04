@@ -13,7 +13,8 @@ test.only("renders misdeameanours item component", () => {
   );
   expect(container.getElementsByClassName("table-row").length).toBe(1);
   expect(container.getElementsByClassName("row-item").length).toBe(4);
-  expect(screen.findAllByText(123)).toBeInTheDocument;
-  expect(screen.findAllByText("vegetables")).toBeInTheDocument;
-  expect(screen.findAllByText("22/12/2023")).toBeInTheDocument;
+  expect(screen.getByText(123)).toBeInTheDocument;
+  expect(screen.getByText("vegetables 🥗")).toBeInTheDocument;
+  expect(screen.getByText("22/12/2023")).toBeInTheDocument;
+  expect(screen.getByTestId("mis-image-abcd")).toHaveAttribute("src");
 });
