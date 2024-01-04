@@ -29,6 +29,16 @@ const validMisdeameanourResponse = http.get(
     })
 );
 
+const errorMisdeameanourResponse = http.get(
+  "http://localhost:8080/api/misdemeanours/10",
+  () => {
+    return new HttpResponse(null, {
+      status: 500,
+      statusText: "oopsie",
+    });
+  }
+);
+
 const validImageListReponse = http.get("https://picsum.photos/v2/list", () =>
   HttpResponse.json([{ id: "1" }, { id: "2" }, { id: "3" }])
 );
@@ -74,5 +84,18 @@ describe("Misdemeanours", () => {
 
     const thirdItem = await screen.findByText("lift 🗣");
     expect(thirdItem).toBeInTheDocument();
+  });
+
+  test("shows the error message when invalid response from misdemeanours", async () => {
+    server.use(errorMisdeameanourResponse);
+    server.use(validImageListReponse);
+    server.use(mockedImageResponse);
+
+    await render(<Misdemeanours />);
+
+    const errorMsg = await screen.findByText(
+      "Sorry an error occurred fetching misdemeanours. Try again later."
+    );
+    expect(errorMsg).toBeInTheDocument;
   });
 });
