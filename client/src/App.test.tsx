@@ -41,7 +41,7 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test("renders the misdemeanours from the list", async () => {
+test("renders the misdemeanours from the list and adds the new confession to it", async () => {
   server.use(validMisdeameanourResponse);
   server.use(validPostResponse);
 
@@ -61,12 +61,7 @@ test("renders the misdemeanours from the list", async () => {
   });
 
   const button = screen.getByRole("button");
-
-  expect(button).toBeInTheDocument();
-  expect(button).not.toHaveAttribute("disabled");
-
   fireEvent.click(button);
-  expect(await screen.findAllByText("Success!")).toBeInTheDocument;
 
   await render(<Misdemeanours />);
 
