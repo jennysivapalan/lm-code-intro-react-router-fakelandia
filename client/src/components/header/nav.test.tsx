@@ -9,7 +9,7 @@ test("renders nav list", () => {
   const homeLink = screen.getByText("Home");
   expect(homeLink).toBeInTheDocument();
 
-  const confession = screen.getByText("Confession");
+  const confession = screen.getByText("Confess To Us");
   expect(confession).toBeInTheDocument();
 
   const misdemeanours = screen.getByText("Misdemeanours");

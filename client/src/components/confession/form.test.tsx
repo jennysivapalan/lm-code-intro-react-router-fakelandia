@@ -1,7 +1,7 @@
 import Form from "./form";
 import { render, screen, fireEvent } from "@testing-library/react";
 
-describe("form detials", () => {
+describe("form details", () => {
   test("renders button and it is disabled", () => {
     render(<Form />);
     const button = screen.getByRole("button");
