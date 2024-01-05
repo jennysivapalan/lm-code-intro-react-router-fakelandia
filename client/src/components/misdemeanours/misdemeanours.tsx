@@ -1,35 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Misdemeanour } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
 import MisdemeanoursSelect from "./select";
+import { useQuery } from "@tanstack/react-query";
+import { misdemeanoursQuery } from "../../main";
 import { newMisdemeanours } from "../../service/new-confessions";
-import { fetchMisdemeanours } from "../../service/fetch-misdemeanours";
 
 const Misdemeanours: React.FC = () => {
-  const [misdemeanours, setMisdemeanours] = useState<Misdemeanour[]>([]);
+  const { data } = useQuery({
+    ...misdemeanoursQuery(),
+
+    staleTime: 4000,
+    retry: false,
+  });
+  const misdemeanours: Array<Misdemeanour> =
+    data?.concat(newMisdemeanours) ?? [];
+
   const [filteredMisdemeanours, setFilteredMisdemeanours] =
     useState<Misdemeanour[]>(misdemeanours);
   const [selectedOption, setSeletedOption] = useState<string>("all");
   const [errorMsg, setErrorMsg] = useState<string>("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const json = await fetchMisdemeanours();
-        const allMisdemeanours = json.concat(newMisdemeanours);
-
-        setMisdemeanours(allMisdemeanours);
-        setFilteredMisdemeanours(allMisdemeanours);
-      } catch (error) {
-        console.error("Error", error);
-        setErrorMsg(
-          "Sorry an error occurred fetching misdemeanours. Try again later."
-        );
-      }
-    };
-
-    fetchData();
-  }, []);
 
   function updateFilteredMisdemeanour(selectedMisdemeanour: string) {
     if (selectedMisdemeanour === "all") setFilteredMisdemeanours(misdemeanours);
