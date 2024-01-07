@@ -8,7 +8,7 @@ import Confession from "./components/confession/confession";
 import Misdemeanours from "./components/misdemeanours/misdemeanours";
 
 const validMisdeameanourResponse = http.get(
-  "http://localhost:8080/api/misdemeanours/10",
+  "http://localhost:8080/api/misdemeanours/5",
   () =>
     HttpResponse.json({
       misdemeanours: [

@@ -1,17 +1,17 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Misdemeanour } from "../../types/misdemeanours.types";
 import MisdemeanoursList from "./list";
 import MisdemeanoursSelect from "./select";
-import { newMisdemeanours } from "../../service/new-confessions";
-import { fetchMisdemeanours } from "../../service/fetch-misdemeanours";
 
-import MisdemeanoursContext from "../../App";
+import { MisdemeanoursContext } from "../../App";
+import { newMisdemeanours } from "../../service/new-confessions";
 
 const Misdemeanours: React.FC = () => {
-  const x: Misdemeanour[] = useContext(MisdemeanoursContext);
+  const { isLoading, misdemeanours } = useContext(MisdemeanoursContext);
 
-  const [filteredMisdemeanours, setFilteredMisdemeanours] =
-    useState<Misdemeanour[]>(misdemeanours);
+  const [filteredMisdemeanours, setFilteredMisdemeanours] = useState<
+    Misdemeanour[]
+  >(misdemeanours.concat(newMisdemeanours));
   const [selectedOption, setSeletedOption] = useState<string>("all");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -23,19 +23,23 @@ const Misdemeanours: React.FC = () => {
       );
       setFilteredMisdemeanours(filteredList);
     }
-    setSeletedOption(selectedMisdemeanour);
   }
 
   return (
     <>
-      <div className="errorMsg">{errorMsg}</div>
-      <div className="table-container">
-        <MisdemeanoursSelect
-          selectedValue={selectedOption}
-          onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
-        />
-        <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
-      </div>
+      {isLoading && <div>Loading data </div>}
+      {!isLoading && (
+        <>
+          <div className="errorMsg">{errorMsg}</div>
+          <div className="table-container">
+            <MisdemeanoursSelect
+              selectedValue={selectedOption}
+              onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
+            />
+            <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
+          </div>
+        </>
+      )}
     </>
   );
 };

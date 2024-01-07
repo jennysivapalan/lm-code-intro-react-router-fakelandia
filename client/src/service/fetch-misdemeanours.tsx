@@ -1,9 +1,14 @@
 import { Misdemeanour } from "../types/misdemeanours.types";
 
-const endpoint = "http://localhost:8080/api/misdemeanours/10";
+export interface MisdemeanourFetchData {
+  isLoading: boolean;
+  misdemeanours: Misdemeanour[];
+}
 
-export async function fetchMisdemeanours(): Promise<Misdemeanour[]> {
+const endpoint = "http://localhost:8080/api/misdemeanours/5";
+
+export async function fetchMisdemeanours(): Promise<MisdemeanourFetchData> {
   const response = await fetch(endpoint);
   const json = await response.json();
-  return json.misdemeanours;
+  return { isLoading: false, misdemeanours: json.misdemeanours };
 }

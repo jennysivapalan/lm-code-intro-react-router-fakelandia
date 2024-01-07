@@ -2,24 +2,30 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./router/router";
 import { useEffect, useState, createContext } from "react";
-import { Misdemeanour } from "./types/misdemeanours.types";
-import { newMisdemeanours } from "./service/new-confessions";
 import { fetchMisdemeanours } from "./service/fetch-misdemeanours";
+import { MisdemeanourFetchData } from "./service/fetch-misdemeanours";
 
-const MisdemeanoursContext = createContext<{
-  misdemeanour: Misdemeanour[];
-}>(<Misdemeanour[]>[]); //initialize context with default value
+const initialData: MisdemeanourFetchData = {
+  isLoading: true,
+  misdemeanours: [],
+};
+
+export const MisdemeanoursContext =
+  createContext<MisdemeanourFetchData>(initialData);
 
 function App() {
-  const [misdemeanours, setMisdemeanours] = useState<Misdemeanour[]>([]);
+  const [misdemeanourFetchData, setMisdemeanourFetchData] =
+    useState<MisdemeanourFetchData>(initialData);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const json = await fetchMisdemeanours();
-        const allMisdemeanours = json.concat(newMisdemeanours);
+        const misdemeanourFetchData = await fetchMisdemeanours();
 
-        setMisdemeanours(allMisdemeanours);
+        setMisdemeanourFetchData({
+          isLoading: misdemeanourFetchData.isLoading,
+          misdemeanours: misdemeanourFetchData.misdemeanours,
+        });
       } catch (error) {
         console.error("Error", error);
       }
@@ -30,7 +36,7 @@ function App() {
 
   return (
     <>
-      <MisdemeanoursContext.Provider value={{ misdemeanours }}>
+      <MisdemeanoursContext.Provider value={misdemeanourFetchData}>
         <BrowserRouter>
           <Router />
         </BrowserRouter>
