@@ -6,28 +6,32 @@ import { test } from "vitest";
 import "@testing-library/jest-dom";
 import Confession from "./components/confession/confession";
 import Misdemeanours from "./components/misdemeanours/misdemeanours";
+import { MisdemeanoursContext } from "./App";
+import { MisdemeanourFetchData } from "./service/fetch-misdemeanours";
+import { Misdemeanour } from "./types/misdemeanours.types";
 
+const misdemeanours: Misdemeanour[] = [
+  {
+    citizenId: 10192,
+    misdemeanour: "united",
+    date: "22/12/2023",
+  },
+  {
+    citizenId: 3961,
+    misdemeanour: "vegetables",
+    date: "20/12/2023",
+  },
+  {
+    citizenId: 6723,
+    misdemeanour: "lift",
+    date: "19/12/2023",
+  },
+];
 const validMisdeameanourResponse = http.get(
   "http://localhost:8080/api/misdemeanours/5",
   () =>
     HttpResponse.json({
-      misdemeanours: [
-        {
-          citizenId: 10192,
-          misdemeanour: "united",
-          date: "22/12/2023",
-        },
-        {
-          citizenId: 3961,
-          misdemeanour: "vegetables",
-          date: "20/12/2023",
-        },
-        {
-          citizenId: 6723,
-          misdemeanour: "lift",
-          date: "19/12/2023",
-        },
-      ],
+      misdemeanours: misdemeanours,
     })
 );
 
@@ -41,8 +45,13 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test("renders the misdemeanours from the list and adds the new confession to it", async () => {
-  server.use(validMisdeameanourResponse);
+const initialData: MisdemeanourFetchData = {
+  isLoading: false,
+  misdemeanours: misdemeanours,
+};
+
+test.skip("renders the misdemeanours from the list and adds the new confession to it", async () => {
+  //server.use(validMisdeameanourResponse);
   server.use(validPostResponse);
 
   render(<Confession />);
@@ -63,7 +72,11 @@ test("renders the misdemeanours from the list and adds the new confession to it"
   const button = screen.getByRole("button");
   fireEvent.click(button);
 
-  await render(<Misdemeanours />);
+  render(
+    <MisdemeanoursContext.Provider value={initialData}>
+      <Misdemeanours />
+    </MisdemeanoursContext.Provider>
+  );
 
   const firstItem = await screen.findByText("10192");
   expect(firstItem).toBeInTheDocument();

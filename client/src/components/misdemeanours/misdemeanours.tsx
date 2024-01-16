@@ -6,25 +6,24 @@ import MisdemeanoursSelect from "./select";
 import { MisdemeanoursContext } from "../../App";
 import { newMisdemeanours } from "../../service/new-confessions";
 
+function filterMisdemeanours(
+  selectedMisdemeanour: string,
+  misdemeanours: Misdemeanour[]
+) {
+  if (selectedMisdemeanour === "all") return misdemeanours;
+  else {
+    return misdemeanours.filter((m) => m.misdemeanour === selectedMisdemeanour);
+  }
+}
+
 const Misdemeanours: React.FC = () => {
   const { isLoading, misdemeanours } = useContext(MisdemeanoursContext);
-
-  const [filteredMisdemeanours, setFilteredMisdemeanours] = useState<
-    Misdemeanour[]
-  >(misdemeanours.concat(newMisdemeanours));
   const [selectedOption, setSeletedOption] = useState<string>("all");
   const [errorMsg, setErrorMsg] = useState<string>("");
-
-  function updateFilteredMisdemeanour(selectedMisdemeanour: string) {
-    if (selectedMisdemeanour === "all") setFilteredMisdemeanours(misdemeanours);
-    else {
-      const filteredList = misdemeanours.filter(
-        (m) => m.misdemeanour === selectedMisdemeanour
-      );
-      setFilteredMisdemeanours(filteredList);
-    }
-  }
-
+  const filteredMisdemeanours = filterMisdemeanours(
+    selectedOption,
+    misdemeanours.concat(newMisdemeanours)
+  );
   return (
     <>
       {isLoading && <div>Loading data </div>}
@@ -34,7 +33,7 @@ const Misdemeanours: React.FC = () => {
           <div className="table-container">
             <MisdemeanoursSelect
               selectedValue={selectedOption}
-              onChangeSelectedValue={(e) => updateFilteredMisdemeanour(e)}
+              onChangeSelectedValue={(value) => setSeletedOption(value)}
             />
             <MisdemeanoursList misdemeanours={filteredMisdemeanours} />
           </div>
