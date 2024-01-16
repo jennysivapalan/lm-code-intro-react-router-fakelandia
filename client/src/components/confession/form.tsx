@@ -25,13 +25,10 @@ const Form: React.FC = () => {
     message: "",
   });
 
-  const isValid = useMemo(
-    () =>
-      validateSubject(subject).length === 0 &&
-      validateReason(reason).length === 0 &&
-      validateDetails(details).length === 0,
-    [subject, reason, details]
-  );
+  const isValid =
+    validateSubject(subject).length === 0 &&
+    validateReason(reason).length === 0 &&
+    validateDetails(details).length === 0;
 
   async function submitConfession() {
     const data = await postConfession(subject, reason, details);
