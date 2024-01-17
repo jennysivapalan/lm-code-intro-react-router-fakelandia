@@ -2,6 +2,7 @@ import Form from "./form";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
+import userEvent from "@testing-library/user-event";
 
 const server = setupServer();
 
@@ -28,48 +29,52 @@ describe("form details", () => {
 
   test("button to be enabled when fields are filled and confirmation given when submitted", async () => {
     server.use(validPostResponse);
+    const user = userEvent.setup();
+
     render(<Form />);
     const subject = screen.getByTestId("subject");
-    fireEvent.change(subject, {
-      target: { value: "i have something to report" },
-    });
+    await user.type(subject, "i have something to report");
 
     const reason = screen.getByTestId("reason");
-    fireEvent.change(reason, { target: { value: "united" } });
+    await user.selectOptions(reason, "united");
 
     const details = screen.getByTestId("details");
-    fireEvent.change(details, {
-      target: { value: "Citizen 452 loves united and I am reporting them" },
-    });
+
+    await user.type(
+      details,
+      "Citizen 452 loves united and I am reporting them"
+    );
 
     const button = screen.getByRole("button");
 
     expect(button).toBeInTheDocument();
     expect(button).not.toHaveAttribute("disabled");
 
-    fireEvent.click(button);
+    await user.click(button);
+
     expect(await screen.findAllByText("Success!")).toBeInTheDocument;
   });
 
   test("error message is shown if post request fails", async () => {
     server.use(errorPostResponse);
+    const user = userEvent.setup();
+
     render(<Form />);
     const subject = screen.getByTestId("subject");
-    fireEvent.change(subject, {
-      target: { value: "i have something to report" },
-    });
+    await user.type(subject, "i have something to report");
 
     const reason = screen.getByTestId("reason");
-    fireEvent.change(reason, { target: { value: "united" } });
+    await user.selectOptions(reason, "united");
 
     const details = screen.getByTestId("details");
-    fireEvent.change(details, {
-      target: { value: "Citizen 452 loves united and I am reporting them" },
-    });
+    await user.type(
+      details,
+      "Citizen 452 loves united and I am reporting them"
+    );
 
     const button = screen.getByRole("button");
 
-    fireEvent.click(button);
+    await user.click(button);
     expect(await screen.findAllByText("Fail!")).toBeInTheDocument;
     expect(
       await screen.findAllByText(
@@ -78,20 +83,22 @@ describe("form details", () => {
     ).toBeInTheDocument;
   });
 
-  test("button is disabled when subject is missing", () => {
+  test("button is disabled when subject is missing", async () => {
     render(<Form />);
+    const user = userEvent.setup();
 
     const subject = screen.getByTestId("subject");
-    fireEvent.change(subject, { target: { value: "I..." } });
-    fireEvent.change(subject, { target: { value: "" } });
+    await user.type(subject, "I...");
+    fireEvent.change(subject, { target: { value: "" } }); //user.type with empty string causes an error
 
     const reason = screen.getByTestId("reason");
-    fireEvent.change(reason, { target: { value: "united" } });
+    await user.selectOptions(reason, "united");
 
     const details = screen.getByTestId("details");
-    fireEvent.change(details, {
-      target: { value: "Citizen 452 loves united and I am reporting them" },
-    });
+    await user.type(
+      details,
+      "Citizen 452 loves united and I am reporting them"
+    );
 
     const button = screen.getByRole("button");
 
@@ -104,22 +111,24 @@ describe("form details", () => {
     expect(errorMsg).toBeInTheDocument;
   });
 
-  test("button is disabled when reason is missing", () => {
+  test("button is disabled when reason is missing", async () => {
+    const user = userEvent.setup();
+
     render(<Form />);
 
     const subject = screen.getByTestId("subject");
-    fireEvent.change(subject, {
-      target: { value: "i have something to report" },
-    });
+
+    await user.type(subject, "i have something to report");
 
     const reason = screen.getByTestId("reason");
-    fireEvent.change(reason, { target: { value: "united" } });
-    fireEvent.change(reason, { target: { value: "" } });
+    await user.selectOptions(reason, "united");
+    await user.selectOptions(reason, "");
 
     const details = screen.getByTestId("details");
-    fireEvent.change(details, {
-      target: { value: "Citizen 452 loves united and I am reporting them" },
-    });
+    await user.type(
+      details,
+      "Citizen 452 loves united and I am reporting them"
+    );
 
     const button = screen.getByRole("button");
 
@@ -132,19 +141,22 @@ describe("form details", () => {
     expect(errorMsg).toBeInTheDocument;
   });
 
-  test("button is disabled when details is missing", () => {
+  test("button is disabled when details is missing", async () => {
+    const user = userEvent.setup();
+
     render(<Form />);
 
     const subject = screen.getByTestId("subject");
-    fireEvent.change(subject, {
-      target: { value: "i have something to report" },
-    });
+    await user.type(subject, "i have something to report");
 
     const reason = screen.getByTestId("reason");
-    fireEvent.change(reason, { target: { value: "united" } });
+    await user.selectOptions(reason, "united");
 
     const details = screen.getByTestId("details");
-    fireEvent.change(details, { target: { value: "some details" } });
+    await user.type(
+      details,
+      "Citizen 452 loves united and I am reporting them"
+    );
     fireEvent.change(details, { target: { value: "" } });
 
     const button = screen.getByRole("button");
